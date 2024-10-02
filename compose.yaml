@@ -6,6 +6,9 @@ services:
       - "--label-enable"
       - "--interval"
       - "30"
+    environment:
+      - REPO_USER=${GHCR_USERNAME}
+      - REPO_PASS=${GHCR_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   reverse-proxy:

@@ -1,4 +1,17 @@
 services:
+  reverse-proxy:
+    image: traefik:v3.1
+    command: 
+      - "--api.insecure=true"
+      - "--providers.docker"
+    ports:
+      # Porta HTTP
+      - "80:80"
+      # Web UI
+      - "8080:8080"
+    volumes:
+      # Para o Traefik acessar o Docker
+      - "/var/run/docker.sock:/var/run/docker.sock"
   web:
     container_name: app
     build: .

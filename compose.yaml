@@ -7,8 +7,6 @@ services:
       - "--interval"
       - "30"
       - "--rolling-restart"
-    environment:
-      GHCR_TOKEN: ${GHCR_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -42,11 +40,8 @@ services:
       - "traefik.http.routers.djchat.entrypoints=websecure"
       - "traefik.http.routers.djchat.tls.certresolver=myresolver"
       - "com.centurylinklabs.watchtower.enable=true"
-      - "com.centurylinklabs.watchtower.interval=30"
     env_file:
       - .env
-    environment:
-      GHCR_TOKEN: ${GHCR_TOKEN}
     deploy:
       mode: replicated
       replicas: 3

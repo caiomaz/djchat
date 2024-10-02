@@ -45,7 +45,7 @@ services:
       - "com.centurylinklabs.watchtower.interval=30"
     env_file:
       - .env
-    env:
+    environment:
       GHCR_TOKEN: ${GHCR_TOKEN}
     deploy:
       mode: replicated

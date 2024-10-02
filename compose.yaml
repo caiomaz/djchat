@@ -6,9 +6,6 @@ services:
       - "--label-enable"
       - "--interval"
       - "30"
-    environment:
-      - REPO_USER=${GHCR_USERNAME}
-      - REPO_PASS=${GHCR_TOKEN}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   reverse-proxy:
@@ -33,7 +30,7 @@ services:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
   web:
-    image: ghcr.io/caiomaz/djchat/app:latest
+    image: ghcr.io/caiomaz/djchat/app:prod
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.djchat.rule=Host(`ranquei.xyz`)"

@@ -22,7 +22,7 @@ jobs:
 
       # Logar no GitHub Container Registry (ghcr.io), utilizando o GITHUB_TOKEN gerado automaticamente
       - name: Log in to the GitHub Container Registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       # Fazer build da imagem Docker usando o Dockerfile no repositório
       - name: Build the Docker image

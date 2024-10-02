@@ -5,21 +5,30 @@ services:
     command: 
       - "--api.insecure=true"
       - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entryPoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=grao@ranquei.xyz"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
-      # Porta HTTP
-      - "80:80"
-      # Web UI
+      - "443:443"
       - "8080:8080"
     volumes:
-      # Para o Traefik acessar o Docker
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - letsencrypt:/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
   web:
     # image: ghcr.io/caiomaz/djchat/app:latest
     labels:
+      - "traefik.enable=true"
       - "traefik.http.routers.djchat.rule=Host(`ranquei.xyz`)"
+      - "traefik.http.routers.djchat.entrypoints=websecure"
+      - "traefik.http.routers.djchat.tls.certresolver=myresolver"
     build: .
     env_file:
       - .env
+    deploy:
+      mode: replicated
+      replicas: 3
     depends_on:
       db:
         condition: service_healthy
@@ -45,3 +54,4 @@ services:
 
 volumes:
   data:
+  letsencrypt:

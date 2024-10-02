@@ -1,15 +1,15 @@
 services:
-  # watchtower:
-  #   image: containrrr/watchtower
-  #   container_name: watchtower
-  #   command:
-  #     - "--label-enable"
-  #     - "--interval"
-  #     - "30"
-  #     - "--rolling-restart"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--rolling-restart"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
   reverse-proxy:
     image: traefik:v3.1
     container_name: traefik
@@ -33,7 +33,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   web:
-    image: ghcr.io/caiomaz/djchat/app:latest
+    # image: ghcr.io/caiomaz/djchat/app:latest
+    build: .
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.djchat.rule=Host(`ranquei.xyz`)"

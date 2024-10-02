@@ -9,6 +9,7 @@ services:
   #     - "--rolling-restart"
   #   volumes:
   #     - /var/run/docker.sock:/var/run/docker.sock
+  
   reverse-proxy:
     image: traefik:v3.1
     container_name: traefik
@@ -30,8 +31,9 @@ services:
     volumes:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock
+
   web:
-    image: ghcr.io/caiomaz/djchat/app:prod
+    image: ghcr.io/caiomaz/djchat/app:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.djchat.rule=Host(`ranquei.xyz`)"
@@ -46,7 +48,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
 
   db:
     image: postgres

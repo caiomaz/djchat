@@ -1,10 +1,10 @@
 name: Docker Build and Push
 
-# Esse workflow será executado quando houver um push na branch main
+# Esse workflow será executado quando houver um push na branch dev
 on:
   push:
     branches:
-      - main
+      - dev
 
 jobs:
   build:

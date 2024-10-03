@@ -29,20 +29,20 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
-    # api:
-    #   routers:
-    #     dashboard:
-    #       rule: "Host(`traefik.ranquei.xyz`)" 
-    #       service: api@internal
-    #       entrypoints:
-    #         - websecure
-    #       middlewares:
-    #         - basic-auth
-    # middleware:
-    #   basic-auth:
-    #     basicAuth:
-    #       users:
-    #         - "${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
+    api:
+      routers:
+        dashboard:
+          rule: "Host(`traefik.ranquei.xyz`)" 
+          service: api@internal
+          entrypoints:
+            - websecure
+          middlewares:
+            - basic-auth
+    middleware:
+      basic-auth:
+        basicAuth:
+          users:
+            - "usuario:senha"
     volumes:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock

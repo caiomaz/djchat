@@ -1,11 +1,9 @@
 services:
   web:
     image: ghcr.io/caiomaz/djchat/app:dev
+    container_name: app
     env_file:
       - .env
-    deploy:
-      mode: replicated
-      replicas: 3
     depends_on:
       db:
         condition: service_healthy

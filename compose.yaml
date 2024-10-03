@@ -1,43 +1,6 @@
 services:
-  watchtower:
-    image: containrrr/watchtower
-    container_name: watchtower
-    command:
-      - "--label-enable"
-      - "--interval"
-      - "30"
-      - "--rolling-restart"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-
-  reverse-proxy:
-    image: traefik:v3.1
-    container_name: traefik
-    command:
-      - "--providers.docker"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entryPoints.websecure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=grao@ranquei.xyz"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - letsencrypt:/letsencrypt
-      - /var/run/docker.sock:/var/run/docker.sock
-
   web:
-    image: ghcr.io/caiomaz/djchat/app:latest
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.djchat.rule=Host(`ranquei.xyz`)"
-      - "traefik.http.routers.djchat.entrypoints=websecure"
-      - "traefik.http.routers.djchat.tls.certresolver=myresolver"
-      - "com.centurylinklabs.watchtower.enable=true"
+    image: ghcr.io/caiomaz/djchat/app:dev
     env_file:
       - .env
     deploy:
@@ -67,5 +30,3 @@ services:
 
 volumes:
   data:
-  letsencrypt:
-  

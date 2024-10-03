@@ -14,18 +14,18 @@
 
 <body>
     <div class="container my-5">
-        <h1 class="text-center mb-4">Mande alguma coisa!</h1>
-
-        <form method="post" class="mb-5">
+        <form method="post" class="mb-3">
             {% csrf_token %}
-            <div class="mb-3">
-                {{ form.text }}
-                <div class="text-danger">{{ form.text.errors }}</div>
+            <div class="row">
+                <div class="col mx-auto">
+                    <div class="input-group">
+                        {{ form.text }}
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </div>
+                    <div class="text-danger">{{ form.text.errors }}</div>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </form>
-
-        <h2 class="text-center mb-4">O que enviaram:</h2>
+        </form>        
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -37,7 +37,7 @@
                 {% for message in messages %}
                     <tr>
                         <td>{{ message.text }}</td>
-                        <td class="text-end">{{ message.date|date:"d/m/Y H:i:s" }}</td>
+                        <td class="text-end">{{ message.date|date:"d/m/Y H:i" }}</td>
                     </tr>
                 {% empty %}
                     <tr>

@@ -11,4 +11,4 @@ class Message(models.Model):
         ordering = ('date',)
 
     def __str__(self):
-        return self.date.strftime('%d/%m/%Y %H:%M:%S')
+        return self.date.strftime('%d/%m/%Y %H:%M')

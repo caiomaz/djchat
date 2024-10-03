@@ -7,9 +7,9 @@ class MessageForm(forms.ModelForm):
         model = Message
         fields = ['text']
         widgets = {
-            'text': forms.Textarea(attrs={
+            'text': forms.TextInput(attrs={
                 'class': 'form-control message-input',
-                'style': 'resize: none; height: 100px;',  # Altura fixa e impedir redimensionamento
+                'placeholder': 'Digite sua mensagem...',
             }),
         }
 

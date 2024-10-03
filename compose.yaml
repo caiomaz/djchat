@@ -14,7 +14,8 @@ services:
     image: traefik:v3.1
     container_name: traefik
     command:
-      - "--api.insecure=true"
+      - "--api=true"
+      - "--api.dashboard=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.websecure.address=:443"
@@ -28,6 +29,20 @@ services:
       - "80:80"
       - "443:443"
       - "8080:8080"
+    middleware:
+      basic-auth:
+        basicAuth:
+          users:
+            - "${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
+    api:
+      routers:
+        dashboard:
+          rule: "Host(`traefik.ranquei.xyz`)"
+          service: api@internal
+          entrypoints:
+            - websecure
+          middlewares:
+            - basic-auth@file
     volumes:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock

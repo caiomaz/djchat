@@ -78,6 +78,12 @@ services:
       - "traefik.http.routers.portainer.entrypoints=websecure"
       - "traefik.http.routers.portainer.tls.certresolver=myresolver"
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/api/status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 
 volumes:
   data:

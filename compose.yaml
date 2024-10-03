@@ -38,11 +38,6 @@ services:
             - websecure
           middlewares:
             - basic-auth
-    middleware:
-      basic-auth:
-        basicAuth:
-          users:
-            - "usuario:senha"
     volumes:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock

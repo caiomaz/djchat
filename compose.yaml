@@ -14,8 +14,6 @@ services:
     image: traefik:v3.1
     container_name: traefik
     command:
-      - "--api=true"
-      - "--api.dashboard=true"
       - "--providers.docker"
       - "--providers.docker.exposedbydefault=false"
       - "--entryPoints.websecure.address=:443"
@@ -25,16 +23,9 @@ services:
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websecure.http.middlewares=auth@docker"
-    labels:
-      - "traefik.http.middlewares.auth.basic.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}"
-      - "traefik.http.routers.api.rule=Host(`traefik.ranquei.xyz`)"
-      - "traefik.http.routers.api.entrypoints=websecure"
-      - "traefik.http.routers.api.middlewares=auth@docker"
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
     volumes:
       - letsencrypt:/letsencrypt
       - /var/run/docker.sock:/var/run/docker.sock

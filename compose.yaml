@@ -39,8 +39,6 @@ services:
       - backup:/backup
     env_file:
       - .env
-    environment:
-      - PGPASSWORD: ${DATABASE_PASSWORD}
     entrypoint: [ "sh", "-c", "pg_dump -h db -U ${DATABASE_USER} -d ${DATABASE_NAME} > /backup/db_dump.sql && rclone copy /backup/db_dump.sql gdrive:/DB-BACKUP-TESTE" ]
 
 volumes:

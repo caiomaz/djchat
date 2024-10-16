@@ -10,6 +10,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - dev
 
   db:
     image: postgres
@@ -28,6 +30,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - dev
 
   backup:
     image: postgres
@@ -40,7 +44,12 @@ services:
     env_file:
       - .env
     entrypoint: [ "sh", "-c", "pg_dump -h db -U ${DATABASE_USER} -d ${DATABASE_NAME} > /backup/db_dump.sql && rclone copy /backup/db_dump.sql gdrive:/DB-BACKUP-TESTE" ]
+    networks:
+      - dev
 
 volumes:
   data:
   backup:
+
+networks:
+  dev:

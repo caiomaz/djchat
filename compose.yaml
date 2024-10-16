@@ -29,5 +29,18 @@ services:
       timeout: 5s
       retries: 5
 
+  backup:
+    image: postgres
+    container_name: db_backup
+    restart: "no"
+    depends_on:
+      - db
+    volumes:
+      - backup:/backup
+    env_file:
+      - .env
+    entrypoint: [ "sh", "-c", "pg_dump -h db -U ${DATABASE_USER} -d ${DATABASE_NAME} > /backup/db_dump.sql && rclone copy /backup/db_dump.sql gdrive:/DB-BACKUP-TESTE" ]
+
 volumes:
   data:
+  backup:

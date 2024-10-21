@@ -11,7 +11,7 @@ services:
       db:
         condition: service_healthy
     networks:
-      - dev
+      - mynetwork
 
   db:
     image: postgres
@@ -31,10 +31,12 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - dev
+      - mynetwork
 
   backup:
-    image: postgres
+    build:
+      context: .
+      dockerfile: Dockerfile.backup
     container_name: db_backup
     restart: "no"
     depends_on:
@@ -45,11 +47,12 @@ services:
       - .env
     entrypoint: [ "sh", "-c", "pg_dump -h db -U ${DATABASE_USER} -d ${DATABASE_NAME} > /backup/db_dump.sql && rclone copy /backup/db_dump.sql gdrive:/DB-BACKUP-TESTE" ]
     networks:
-      - dev
+      - mynetwork
 
 volumes:
   data:
   backup:
 
 networks:
-  dev:
+  mynetwork:
+    driver: bridge
